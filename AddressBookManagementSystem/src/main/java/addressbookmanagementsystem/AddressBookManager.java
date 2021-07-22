@@ -425,7 +425,7 @@ public class AddressBookManager implements IAddressBook {
     }
 	
     private void addContactsToJSONFile(String addressBookName) throws IOException {
-    	Path filePath = Paths.get("C:\\Users\\Shravya\\Desktop\\" + addressBookName + ".json");
+    	Path filePath = Paths.get("C:\\Users\\Sanket\\Desktop\\" + addressBookName + ".json");
     	Gson gson = new Gson();
     	String json = gson.toJson(contacts);
     	FileWriter writer = new FileWriter(String.valueOf(filePath));
@@ -434,7 +434,7 @@ public class AddressBookManager implements IAddressBook {
     }
     
     public void readFromJSONFile(String addressBookName) throws FileNotFoundException {
-    	Path filePath = Paths.get("C:\\Users\\Shravya\\Desktop\\" + addressBookName + ".json");
+    	Path filePath = Paths.get("C:\\Users\\Sanket\\Desktop\\" + addressBookName + ".json");
     	Gson gson = new Gson();
     	BufferedReader br = new BufferedReader(new FileReader(String.valueOf(filePath)));
     	Person[] person = gson.fromJson(br, Person[].class);
