@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -70,6 +71,11 @@ public class AddressBookManager implements IAddressBook {
             } catch (CsvDataTypeMismatchException e) {
                 e.printStackTrace();
             } catch (CsvRequiredFieldEmptyException e) {
+                e.printStackTrace();
+            }
+            try {
+                addContactsToJSONFile(addressBookName);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             System.out.println("Contact added: " + person.firstName + " " + person.lastName);
@@ -418,4 +424,29 @@ public class AddressBookManager implements IAddressBook {
 
     }
 	
+    private void addContactsToJSONFile(String addressBookName) throws IOException {
+    	Path filePath = Paths.get("C:\\Users\\Shravya\\Desktop\\" + addressBookName + ".json");
+    	Gson gson = new Gson();
+    	String json = gson.toJson(contacts);
+    	FileWriter writer = new FileWriter(String.valueOf(filePath));
+    	writer.write(json);
+    	writer.close();
+    }
+    
+    public void readFromJSONFile(String addressBookName) throws FileNotFoundException {
+    	Path filePath = Paths.get("C:\\Users\\Shravya\\Desktop\\" + addressBookName + ".json");
+    	Gson gson = new Gson();
+    	BufferedReader br = new BufferedReader(new FileReader(String.valueOf(filePath)));
+    	Person[] person = gson.fromJson(br, Person[].class);
+    	List<Person> contactList = Arrays.asList(person);
+    	for (Person contact : contactList) {
+    		System.out.println("Firstname : " + contact.firstName);
+    		System.out.println("Lastname : " + contact.lastName);
+    		System.out.println("Address : " + contact.address);
+    		System.out.println("City : " + contact.city);
+    		System.out.println("State : " + contact.state);
+    		System.out.println("Zip : " + contact.zip);
+    		System.out.println("Phone number : " + contact.phoneNumber);
+    	}
+    }
 }
